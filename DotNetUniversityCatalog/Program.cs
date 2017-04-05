@@ -11,23 +11,43 @@ namespace DotNetUniversityCatalog
     {
         static void Main(string[] args)
         {
-            const string connectionString = @"Server=localhost\SQLEXPRESS;Database=DotNetUniversityCatalog;Trusted_Connection=True;";
+            const string connectionString = 
+                @"Server=localhost\SQLEXPRESS;Database=DotNetUniversityCatalog;Trusted_Connection=True;";
+
+            var courses = new List<Course>();
             using (var connection = new SqlConnection(connectionString))
             {
                 var sqlCommand = new SqlCommand(@"SELECT Course.CourseTitle, Instructor.InstName
                                                 FROM Course
-                                                JOIN Instructor ON Course.InstName = Instructor.Id", 
+                                                JOIN Instructor ON Course.InstName = Instructor.Id",
                                                 connection);
                 connection.Open();
                 var reader = sqlCommand.ExecuteReader();
                 while (reader.Read())
                 {
-                    Console.WriteLine(reader["CourseTitle"] + "--" + reader["InstName"]);
+                    var course = new Course(reader);
+                    courses.Add(course);
                 }
-
                 connection.Close();
             }
 
+            foreach(var course in courses)
+            {
+                Console.WriteLine(course.CourseTitle);
+            }
+
+            //var course = new List<Course>();
+            //using (var connection = new SqlConnection(connectionString))
+            //{
+            //    courses = GetAllCourses(connection);
+            //    foreach (var city in course)
+            //    {
+            //        Console.WriteLine(course.CourseTitle);
+            //    }
+
+
+
+            //}
         }
     }
 }

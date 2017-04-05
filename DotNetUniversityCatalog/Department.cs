@@ -7,20 +7,18 @@ using System.Threading.Tasks;
 
 namespace DotNetUniversityCatalog
 {
-    class Course
+    class Department
     {
         public int Id { get; set; }
-        public string CourseTitle { get; set; }
-        public string InstName { get; set; }
-        public string CourseNumber { get; set; }
+        public string HeadInst { get; set; }
+        public string DeptName { get; set; }
         public int DeptCode { get; set; }
 
-        public Course(SqlDataReader reader)
+        public Department(SqlDataReader reader)
         {
             Id = (int)reader["Id"];
-            CourseTitle = reader["CourseTitle"].ToString();
-            InstName = reader["InstName"].ToString();
-            CourseNumber = reader["CourseNumber"].ToString();
+            HeadInst = reader["HeadInst"].ToString();
+            DeptName = reader["DeptName"].ToString();
             DeptCode = (int)reader["DeptCode"];
         }
     }
