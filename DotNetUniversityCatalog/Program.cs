@@ -36,18 +36,35 @@ namespace DotNetUniversityCatalog
                 Console.WriteLine(course.CourseTitle);
             }
 
-            //var course = new List<Course>();
-            //using (var connection = new SqlConnection(connectionString))
-            //{
-            //    courses = GetAllCourses(connection);
-            //    foreach (var city in course)
-            //    {
-            //        Console.WriteLine(course.CourseTitle);
-            //    }
 
+            //Finding the number of courses
+            using (var connection = new SqlConnection(connectionString))
+            {
+                var sqlCommand = new SqlCommand(@"SELECT COUNT(CourseTitle) FROM Course;",
+                                                connection);
+                connection.Open();
+                var reader = sqlCommand.ExecuteReader();
+                while (reader.Read())
+                {
+                    var course = new Course(reader);
+                    Console.WriteLine("There are " + course + " courses.");
+                }
+                connection.Close();
+            }
 
-
-            //}
+            //Finding the number of instructors
+            using (var connection = new SqlConnection(connectionString))
+            {
+                var sqlCommand = new SqlCommand(@"SELECT COUNT(InstName) FROM Instructor;",
+                                                connection);
+                connection.Open();
+                var reader = sqlCommand.ExecuteReader();
+                while (reader.Read())
+                {
+                    Console.WriteLine("There are " + reader + " instructors.");
+                }
+                connection.Close();
+            }
         }
     }
 }
